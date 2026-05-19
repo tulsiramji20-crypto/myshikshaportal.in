@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MyShiksha Portal</title>
+
+    <!-- 🔥 Hindi font yahan add karo -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <!-- ✅ LOGO ADD -->
+        <div class="logo">
+            <img src="logo.png" alt="logo">
+            <h2>MyShiksha Portal</h2>
+        </div>
+
+        <ul>
+    <li class="active" onclick="showDashboard(); setActive(this)">🏠 Dashboard</li>
+    <li onclick="showStudents(); setActive(this)">👨‍🎓 Students</li>
+    <li onclick="showTeachers(); setActive(this)">👩‍🏫 Teachers</li>
+    <li onclick="showResults(); setActive(this)">📊 Results</li>
+    <li onclick="showMark(); setActive(this)">📝 Mark Entry</li>
+    <li onclick="showReport(); setActive(this)">📋 Report Card</li>
+    <li onclick="toggleDocumentMenu(); setActive(this)">
+    📁 Document
+</li>
+
+<ul id="documentMenu" style="display:none; padding-left:20px;">
+
+    <li onclick="showDocument()">📁 Document Upload</li>
+
+    <li onclick="showDocumentShow()">📁 Document Show</li>
+
+</ul>
+    
+    <li onclick="showAdmission(); setActive(this)">📄 Admission Form</li>
+    <li onclick="showProfile(); setActive(this)">🏫 School Profile</li>
+     </ul>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Top -->
+        <div class="topbar">
+            <h2>Dashboard</h2>
+        </div>
+
+        <!-- Welcome -->
+       
+
+        <!-- Cards -->
+        <!-- <div class="cards">
+
+            <div class="card">
+                <h4>Total Students</h4>
+                <p id="students">0</p>
+            </div>
+
+            <div class="card">
+                <h4>Total Teachers</h4>
+                <p>0</p>
+            </div>
+
+            <div class="card">
+                <h4>Attendance</h4>
+               
+            </div>
+
+            <div class="card">
+                <h4>Results</h4>
+            
+            </div>
+
+        </div> -->
+
+        <!-- Bottom Section -->
+       <div id="studentsSection" style="display:none;">
+         <h2>Student Management</h2>
+
+    <!-- 🔷 TOP FIX PART -->
+    <div class="top-box">
+        
+
+        <button type="button" onclick="showForm()">+ Add Student</button> 
+        <button onclick="showDashboard()">Back</button>
+        <button onclick="exportToExcel()">Export to Excel</button>
+        
+
+        <br><br>
+
+        <select id="classFilter">
+           
+            <option value="all">All Class</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <option value="4">Class 4</option>
+            <option value="5">Class 5</option>
+            <option value="6">Class 6</option>
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+            <option value="9">Class 9</option>
+            <option value="10">Class 10</option>
+        </select>
+        <!-- ✅ NEW BUTTONS -->
+    <button onclick="filterByClass()">Search</button>
+    <button onclick="clearFilter()">Clear</button>
+    <label class="import-btn">
+
+    Import Excel
+
+    <input type="file"
+    id="excelFile"
+    accept=".csv"
+    onchange="importExcel()"
+    hidden>
+
+</label>
+    
+    </div>
+
+    <!-- 🔷 SCROLL BOX -->
+    
+
+    <div class="table-box" id="tableBox" style="display:none;">
+
+    <div class="table-container">
+        <table border="1" width="100%">
+            <thead>
+                <tr>
+                    <th>छात्र/छात्रा का नाम (अंग्रेजी)</th>
+                    <th>छात्र/छात्रा का नाम (हिन्दी)</th>
+                    <th>पिता का नाम (अंग्रेजी)</th>
+                    <th>पिता का नाम (हिन्दी)</th>
+                    <th>माता का नाम (अंग्रेजी)</th>
+                    <th>माता का नाम (हिन्दी)</th>
+                    <th>जन्म तारीख</th>
+                    <th>लिंग</th>
+                    <th>जाति वर्ग</th>
+                    <th>मोबाइल नंबर</th>
+                    <th>प्रोफाइल आई.डी</th>
+                    <th>समग्र आई.डी.</th>
+                    <th>आधार नंबर</th>
+                    <th>कक्षा</th>
+                    <th>अपार आई.डी.</th>
+                    <th>पेन नंबर</th>
+                    <th>प्रवेश तिथि</th>
+                    <th>पिछला विद्यालय</th>
+                    <th>पूर्व कक्षा</th>
+                    <th>डीबीटी स्थिति</th>
+                    <th>बैंक खाता संख्या</th>
+                    <th>IFSC कोड</th>
+                    <th>बैंक का नाम</th>
+
+                    
+                    <th>छात्र प्रकार</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="studentList"></tbody>
+</table>
+
+</div>  <!-- table-container close -->
+
+</div>  <!-- table-box close -->
+
+</div>  <!-- studentsSection close -->
+
+
+<!-- FORM -->
+<div id="formSection" style="display:none;">
+    
+   
+    <h2>Add Student</h2>
+
+    <form onsubmit="saveData(event)">
+
+        <div class="form-grid">
+            <!-- BASIC -->
+             <div class="Full">
+                <h3>👤 Basic Information</h3>
+
+            </div>
+            
+           
+
+            <div>
+                <label>👤 Student Name English</label>
+                <input type="text" id="name" placeholder="Student Name English">
+            </div>
+
+            <div>
+                <label>👤 छात्र का नाम(हिन्दी में )</label>
+                <input type="text" id="name_hindi" placeholder="छात्र का नाम(हिन्दी में )">
+            
+            </div>
+
+            <div>
+                <label>👨 Father Name English</label>
+                <input type="text" id="father" placeholder="Father Name English">
+            </div>
+
+            <div>
+                <label>👨 पिता का नाम(हिन्दी में )</label>
+                <input type="text" id="father_hindi" placeholder="पिता का नाम(हिन्दी में )">
+            </div>
+
+            <div>
+                <label>Mother Name English</label>
+                <input type="text" id="mother" placeholder="Mother Name English">
+            </div>
+            <div>
+                <label>माता का नाम(हिन्दी में )</label>
+                <input type="text" id="mother_hindi" placeholder="माता का नाम(हिन्दी में )">
+            </div>
+             
+
+            <div>
+                <label>DOB(जन्म तारीख)</label>
+                <input type="text" id="dob" placeholder="DD/MM/YYYY" pattern="\d{2}/\d{2}/\d{4}">
+            </div>
+
+            <div>
+                <label> लिंग</label>
+                <select id="gender">
+                    <option value="">लिंग चुनें
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+            <div>
+                <label>जाति वर्ग (Category)</label>
+                <select id="category">
+                   <option value="">चुनें</option>
+                   <option>ST</option>
+                   <option>SC</option>
+                   
+                   <option>OBC</option>
+                   <option>General</option>
+                   
+                   
+                </select>
+            </div>
+
+           
+           
+
+            <div>
+                <label>Samagra ID</label>
+                <input type="text" id="samagraId" placeholder="Samagra ID">
+            </div>
+
+            <div>
+                <label>Aadhaar</label>
+                <input type="text" id="aadhaar"placeholder="Aadhaar Number">
+            </div>
+            <div class="Full">
+                <h3>🎓 शैक्षणिक विवरण (Academic Details)</h3>
+
+            </div>
+             <div>
+                <label>Class (कक्षा )</label>
+               <select id="class">
+    <option value="">कक्षा चुनें</option>
+
+    <option>1 ली</option>
+    <option>2 री</option>
+    <option>3 री</option>
+
+    <option>4 थी</option>
+    <option>5 वी</option>
+    <option>6 टी</option>
+
+    <option>7 वी</option>
+    <option>8 वी</option>
+    <option>9 वी</option>
+
+    <option>10 वी</option>
+</select>
+            </div>
+            
+
+
+
+            <div>
+                <label>APAAR ID</label>
+                <input type="text" id="apaarId" placeholder="APAAR ID">
+            </div>
+
+            <div>
+                <label>Pen Number</label>
+                <input type="text" id="penNumber" placeholder="Pen Number">
+            </div>
+
+            <div>
+                <label>Admission Date</label>
+                <input type="date" id="admissionDate">
+            </div>
+
+            <div>
+                <label>Previous School</label>
+                <input type="text" id="prevSchool" placeholder="Previous School">
+            </div>
+            <div>
+                <label>पूर्व कक्षा (Previous Class)</label>
+                <select id="prevClass">
+                    <option value="">कक्षा चुनें</option>
+                    <option>1 ली</option>
+                    <option>2 री</option>
+                    <option>3 री</option>
+
+                    <option>4 थी</option>
+                    <option>5 वी</option>
+                    <option>6 टी</option>
+
+                    <option>7 वी</option>
+                    <option>8 वी</option>
+                    <option>9 वी</option>
+
+                    <option>10 वी</option>
+                </select>
+            </div>
+            
+            <div>
+                <label>Profile ID</label>
+                <input type="text" id="id" placeholder="PR001">
+            </div>
+
+            <!-- Address FULL WIDTH -->
+            <div class="Full">
+                <h3>🏠 Address Details</h3>
+
+            </div>
+
+            <div>
+                <label>Address</label>
+                <input type="text" id="address" placeholder="Address">
+            </div>
+
+            <div>
+                <label>Village</label>
+                <input type="text" id="village" placeholder="Village">
+            </div>
+
+            <div>
+                <label>Post Office</label>
+                <input type="text" id="post" placeholder="Post Office">
+            </div>
+
+            <div>
+                <label>Tehsil</label>
+                <input type="text" id="tehsil" placeholder="Tehsil">
+            </div>
+
+            <div>
+                <label>District</label>
+                <input type="text" id="district" placeholder="District">
+            </div>
+
+            <div>
+                <label>Pincode</label>
+                <input type="text" id="pincode" placeholder="Pincode">
+            </div>
+
+            <!-- Contact -->
+            <div class="Full">
+                <h3>📞 Contact Details</Details></h3>
+            </div>
+             <div>
+                <label>मोबाईल नंबर</label>
+                <input type="text" id="mobileNumber" placeholder="Mobile Number">
+            </div>
+
+            <div>
+                <label>Alternate Mobile</label>
+                <input type="text" id="altMobile" placeholder="Alternate Mobile">
+            </div>
+
+            <div>
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Email Address">
+            </div>
+
+            <!-- Bank -->
+            <div class="Full">
+                <h3>🏦 Bank Details</h3>
+            </div>
+
+            <div>
+                <label>Account Number</label>
+                <input type="text" id="account" placeholder="Account Number">
+            </div>
+
+            <div>
+                <label>IFSC Code</label>
+                <input type="text" id="ifsc" placeholder="IFSC Code">
+            </div>
+
+            <div>
+                <label>बैंक का नाम</label>
+                <input type="text" id="bank" placeholder="Bank Name">
+            </div>
+
+            <!-- DBT -->
+            <div class="Full">
+                <h3>💰 DBT Status</h3>
+            </div>
+
+            <div>
+                <label>DBT</label>
+                <select id="dbt">
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Student Type</label>
+                <select id="hostel">
+                    <option>Day Scholar</option>
+                    <option>Hosteller</option>
+                </select>
+            </div>
+
+        </div>
+
+        <br>
+
+        <button type="submit">Save</button>
+        <button type="button" onclick="showStudents()">Back</button>
+        
+        
+
+    </form>
+</div>
+
+<!-- ✅ DOCUMENT UPLOAD START -->
+
+<div id="documentSection" style="display:none;">
+
+    <h2>Document Upload</h2>
+    <!-- ✅ DOCUMENT FILTER -->
+<div style="
+background:#dbeafe;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+">
+
+<h3>🔍 Student Search</h3>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+    <!-- CLASS -->
+    <div>
+        <label>Class Select</label><br>
+
+        <select id="documentClassFilter"
+        onchange="loadDocumentStudents()">
+
+            <option value="">-- Select Class --</option>
+
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <option value="4">Class 4</option>
+            <option value="5">Class 5</option>
+            <option value="6">Class 6</option>
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+            <option value="9">Class 9</option>
+            <option value="10">Class 10</option>
+
+        </select>
+    </div>
+
+    <!-- STUDENT -->
+    <div>
+        <label>Student Select</label><br>
+
+        <select id="documentStudentFilter">
+
+            <option value="">-- Select Student --</option>
+
+        </select>
+    </div>
+
+</div>
+</div>
+
+    <div class="form-grid">
+
+        <div>
+            <label>Aadhaar Upload</label>
+            <input type="file">
+        </div>
+
+        <div>
+            <label>Photo Upload</label>
+            <input type="file">
+        </div>
+
+        <div>
+            <label>Aay Praman Patra</label>
+            <input type="file">
+        </div>
+
+        <div>
+            <label>Jati Praman Patra</label>
+            <input type="file">
+        </div>
+
+    </div>
+
+    <br>
+
+    <button onclick="showDashboard()">Back</button>
+
+</div>
+<!-- ✅ DOCUMENT UPLOAD END -->
+ <div style="margin-bottom:20px;">
+
+    
+    
+
+</div>
+
+<!-- ✅ ADMISSION FORM -->
+<!-- बाकी पूरा code SAME रहेगा ऊपर -->
+
+
+
+<!-- ✅ DOCUMENT UPLOAD END -->
+
+
+<!-- ✅ ADMISSION FORM -->
+ <!-- ✅ ADMISSION FILTER -->
+<div id="admissionFilterBox"
+style="
+display:none;
+background:#dbeafe;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+">
+
+<h3>🔍 Student Search</h3>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+    <!-- CLASS -->
+    <div>
+        <label>Class Select</label><br>
+
+        <select id="admissionClassFilter"
+        onchange="loadAdmissionStudents()">
+
+            <option value="">-- Select Class --</option>
+
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <option value="4">Class 4</option>
+            <option value="5">Class 5</option>
+            <option value="6">Class 6</option>
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+            <option value="9">Class 9</option>
+            <option value="10">Class 10</option>
+
+        </select>
+    </div>
+
+    <!-- STUDENT -->
+    <div>
+        <label>Student Select</label><br>
+
+        <select id="admissionStudentFilter"
+        onchange="showAdmissionStudent()">
+
+            <option value="">-- Select Student --</option>
+
+        </select>
+    </div>
+
+</div>
+ 
+</div>
+   
+
+<div id="admissionSection" style="display:none; padding:30px; background:rgb(248, 246, 246); border:6px double black;">
+    
+ 
+    
+   
+
+    <!-- 🔽 बाकी पूरा admission form SAME रहेगा -->
+    <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid #000; ">
+
+    <!-- LEFT LOGO -->
+    <img src="logo.png" style="width:80px; height:80px; border-radius:50%;">
+
+    <!-- CENTER -->
+    <div style="text-align:center;">
+        <h2 style="margin:0; color:#1e3a8a;">📄 प्रवेश आवेदन पत्र</h2>
+        <p style="margin:0; font-weight:bold;">MyShiksha Portal</p>
+    </div>
+
+    <!-- RIGHT LOGO -->
+    <img src="logo2.png" style="width:80px; height:80px; border-radius:50%;">
+
+</div>
+
+
+    <hr>
+  
+    
+    <hr>
+
+
+
+
+
+    <h3>👤 छात्र विवरण (student details)</h3>
+    <div style="text-align:right;">
+    <img id="a_photo" 
+         style="width:100px; height:120px; border:2px solid black;">
+</div>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>छात्र का नाम (English): <span id="a_name"></span></p>
+    <p>छात्र का नाम (Hindi): <span id="a_name_hindi"></span></p>
+</div>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>पिता का नाम(English): <span id="a_father"></span></p>
+    <p>पिता का नाम(हिन्दी में ): <span id="a_father_hindi"></span></p>
+</div>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>माता का नाम(English): <span id="a_mother"></span></p>
+    <p>माता का नाम(हिन्दी में ): <span id="a_mother_hindi"></span></p>
+</div>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>जन्म तिथि (DOB): <span id="a_dob"></span></p>
+    <p>Gender (लिंग): <span id="a_gender"></span></p>
+</div>
+
+
+
+<div style="display:flex; justify-content:space-between;">
+    <p>जन्म तिथि शब्दों में (Hindi): <span id="a_dob_hindi"></span></p>
+    <p>Profile ID ( प्रोफाइल आई.डी ): <span id="a_id"></span></p>
+</div>
+<div style="display:flex; justify-content:space-between;">
+    <p>जाति वर्ग (Category): <span id="a_category"></span></p>
+</div>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>समग्र आई.डी (9 अंक ): <span id="a_samagraId"></span></p>
+    <p>आधार नंबर (12 अंक ) : <span id="a_aadhaar"></span></p>
+</div>
+    
+   
+    <hr>
+<h3>🎓 शैक्षणिक विवरण (Academic Details)</h3>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>कक्षा : <span id="a_class"></span></p>
+    <p>प्रवेश तिथि (Admission Date): <span id="a_admissionDate"></span></p>
+</div>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>पूर्व विध्यालय का नाम: <span id="a_prevSchool"></span></p>
+    <p>पूर्व कक्षा : <span id="a_prevClass"></span></p>
+</div>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>पेन नंबर : <span id="a_penNumber"></span></p>
+    <p>APAAR ID: <span id="a_apaarId"></span></p>
+</div>
+<div style="display:flex; justify-content:space-between;">
+    <p>Student Type: <span id="a_hostel"></span></p>
+    
+</div>
+<h3>🏠 पूर्ण पता (Full Address)</h3>
+
+<p>Address: <span id="a_address"></span></p>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>Village: <span id="a_village"></span></p>
+    <p>District: <span id="a_district"></span></p>
+</div>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>Post Office: <span id="a_post"></span></p>
+    <p>Tehsil: <span id="a_tehsil"></span></p>
+</div>
+
+<p>Pincode: <span id="a_pincode"></span></p>
+
+    <h3>📞 संपर्क जानकारी (Contact Information)</h3>
+
+<div style="display:flex; justify-content:space-between;">
+    <p>Mobile: <span id="a_mobile"></span></p>
+    <p>Email: <span id="a_email"></span></p>
+</div>
+<h3>🏦 Bank Details</h3>
+<div style="display:flex; justify-content:space-between;">
+    <p>Account Number: <span id="a_account"></span></p>
+    <p>IFSC Code: <span id="a_ifsc"></span></p>
+</div>
+<div style="display:flex; justify-content:space-between;">
+    <p>बैंक का नाम: <span id="a_bank"></span></p>
+    <p>DBT Status: <span id="a_dbt"></span></p>
+</div>
+    <hr>
+
+<h3>📜 नियम एवं शर्तें</h3>
+
+<ol>
+    <li>विध्यालय गणवेश में ही विध्यालय में प्रवेश दिया जाएगा।</li>
+    <li>अनुशासन का पूर्ण ध्यान रखें अन्यथा विध्यालय से निष्कासित किया जा सकता है।</li>
+    <li>पेरेंट्स मीटिंग में पेरेंट्स का उपस्थित होना अनिवार्य है।</li>
+    <li>विध्यालय में 75% उपस्थिति होना अनिवार्य है, अन्यथा परीक्षा से वंचित किया जा सकता है।</li>
+    <li>कृपया प्रवेश पत्र को ध्यानपूर्वक पढ़कर हस्ताक्षर करें एवं पाल्य की शैक्षणिक गतिविधियों की जानकारी समय-समय पर प्राप्त करते रहें।</li>
+    <li>छात्र/छात्राओं को विद्यालय के नियमों एवं अनुशासन का पालन करना होगा।</li>
+    <li>छात्र/छात्राओं को विद्यालय परिसर में मोबाइल फोन का उपयोग करने की अनुमति नहीं है।</li>
+    <li>छात्र/छात्राओं को विद्यालय परिसर में धूम्रपान, शराब या नशीले पदार्थों का सेवन करने की अनुमति नहीं है।</li>
+    
+</ol>
+
+<h3>📄 घोषणा / Declaration</h3>
+
+<p>
+ ☐ मैं/हम प्रमाणित करते हैं कि उपरोक्त सभी जानकारी सत्य एवं सही है। यदि कोई जानकारी असत्य पाई गई तो प्रवेश निरस्त किया जा सकता है।
+</p>
+
+<p>
+ ☐ I/We certify that all the above information is true and correct. If any information is found to be false, the admission may be cancelled.
+</p>
+
+<br><br>
+
+<div style="display:flex; justify-content:space-between; margin-top:40px;">
+    <div>
+        ________________________<br>
+        अभिभावक हस्ताक्षर
+    </div>
+
+    <div>
+        ________________________<br>
+        छात्र हस्ताक्षर
+    </div>
+</div>
+
+    <button onclick="printForm()">🖨️ Print</button>
+    <button onclick="showDashboard()">Back</button>
+
+</div>
+<!-- REPORT CARD SECTION -->
+
+<div id="reportSection" style="display:none; padding:20px;">
+
+<div class="report-card">
+
+    <!-- HEADER -->
+
+    <div class="report-header">
+
+        <img src="logo.png" class="report-logo">
+
+        <div class="report-title">
+
+            <h1>राज्य शिक्षा केन्द्र (म.प्र.)</h1>
+
+            <h2>समग्र प्रगति पत्रक</h2>
+
+            <h3>कक्षा-3 : सत्र 2026-27</h3>
+
+        </div>
+
+        <img src="logo2.png" class="report-logo">
+
+    </div>
+
+    <!-- STUDENT INFO -->
+
+    <div class="student-info">
+
+        <div class="info-row">
+
+            <div>
+                विद्यार्थी का नाम (हिन्दी में):
+                <input type="text">
+            </div>
+
+            <div>
+                (अंग्रेजी में):
+                <input type="text">
+            </div>
+
+        </div>
+
+        <div class="info-row">
+
+            <div>
+                पिता का नाम:
+                <input type="text">
+            </div>
+
+            <div>
+                माता का नाम:
+                <input type="text">
+            </div>
+
+        </div>
+
+        <div class="info-row">
+
+            <div>
+                जन्म तिथि:
+                <input type="text">
+            </div>
+
+            <div>
+                अनुक्रमांक:
+                <input type="text">
+            </div>
+
+        </div>
+
+        <div class="info-row">
+
+            <div>
+                समग्र आई.डी:
+                <input type="text">
+            </div>
+
+            <div>
+                आधार आई.डी:
+                <input type="text">
+            </div>
+
+        </div>
+
+        <div class="info-row">
+
+            <div>
+                विकासखण्ड:
+                <input type="text">
+            </div>
+
+            <div>
+                जिला:
+                <input type="text">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN TABLE -->
+
+    <table class="report-table">
+
+        <tr>
+
+            <th rowspan="2">विषय</th>
+
+            <th rowspan="2">पूर्णांक</th>
+
+            <th colspan="5">शैक्षिक मूल्यांकन (ग्रेड)</th>
+
+        </tr>
+
+        <tr>
+
+            <th>मासिक टेस्ट <br> (अधिभार 10 अंक)</th>
+
+            <th>अर्द्धवार्षिक <br> (अधिभार 20 अंक)</th>
+
+            <th>वार्षिक <br> परीक्षा <br>लिखित <br> (अ.अ. अंक)</th>
+
+            <th>प्रोजेक्ट <br> (अधिभार 10 अंक)</th>
+
+            <th>समेकित ग्रेड</th>
+
+        </tr>
+
+        <tr>
+            <td>प्रथम भाषा</td>
+            <td>100</td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+        </tr>
+
+        <tr>
+            <td>द्वितीय भाषा</td>
+            <td>100</td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+        </tr>
+
+        <tr>
+            <td>गणित / संगीत</td>
+            <td>100</td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+        </tr>
+
+        <tr>
+            <td>पर्यावरण अध्ययन</td>
+            <td>100</td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+        </tr>
+
+        <tr>
+            <td>ग्रेड</td>
+            <td></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+        </tr>
+
+        <tr>
+            <td>अतिरिक्त भाषा</td>
+            <td>100</td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+            <td><input></td>
+        </tr>
+
+    </table>
+
+    <!-- LOWER BOXES -->
+
+    <div class="bottom-boxes">
+
+        <!-- LEFT -->
+
+        <table class="small-table">
+
+            <tr>
+                <th colspan="2">सह-शैक्षिक क्षेत्र</th>
+            </tr>
+
+            <tr>
+                <th>क्षेत्र</th>
+                <th>ग्रेड</th>
+            </tr>
+
+            <tr>
+                <td>साहित्यिक</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>सांस्कृतिक</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>वैज्ञानिक</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>सृजनात्मक</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>खेलकूद</td>
+                <td><input></td>
+            </tr>
+
+        </table>
+
+        <!-- RIGHT -->
+
+        <table class="small-table">
+
+            <tr>
+                <th colspan="2">व्यक्तिगत-सामाजिक गुण</th>
+            </tr>
+
+            <tr>
+                <th>क्षेत्र</th>
+                <th>ग्रेड</th>
+            </tr>
+
+            <tr>
+                <td>नियमितता एवं समयबद्धता</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>स्वच्छता</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>अनुशासन</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>सहयोग की भावना</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>नेतृत्व क्षमता</td>
+                <td><input></td>
+            </tr>
+
+            <tr>
+                <td>सत्यनिष्ठा एवं ईमानदारी</td>
+                <td><input></td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- GRADE TABLE -->
+
+    <table class="grade-table">
+
+        <tr>
+
+            <th>ग्रेड</th>
+            <th>A+</th>
+            <th>A</th>
+            <th>B+</th>
+            <th>B</th>
+            <th>C+</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+
+        </tr>
+
+        <tr>
+
+            <td>प्रतिशत</td>
+            <td>85 से अधिक</td>
+            <td>76-85</td>
+            <td>66-75</td>
+            <td>56-65</td>
+            <td>51-55</td>
+            <td>46-50</td>
+            <td>33-45</td>
+            <td>33 से कम</td>
+
+        </tr>
+
+    </table>
+
+    <!-- FOOTER -->
+
+    <div class="report-footer">
+
+        <p>
+
+            विद्यार्थी का परीक्षा फल एवं ग्रेड :
+            ----------------------------
+
+        </p>
+
+        <div class="signature-box">
+
+            <div>
+                हस्ताक्षर<br>
+                कक्षा शिक्षक
+            </div>
+
+            <div>
+                 हस्ताक्षर<br>
+                संस्था प्रमुख
+            </div>
+
+        </div>
+
+    </div>
+
+    <center style="margin-top:20px;">
+
+        <button onclick="window.print()">
+
+            🖨️ Print
+
+        </button>
+
+        <button onclick="showDashboard()">
+
+            Back
+
+        </button>
+
+    </center>
+
+</div>
+
+</div>
+
+<!-- MARK ENTRY SECTION -->
+<div id="markSection" style="display:none;">
+
+    <!-- TOP BLUE BOX -->
+    <div class="mark-header">
+
+        <h2>अंक प्रविष्टि प्रणाली (Mark Entry System)</h2>
+        <p>शिक्षा प्रबंधन पोर्टल — Government Education Portal</p>
+
+    </div>
+
+    <!-- EXAM TABS -->
+    <div class="exam-tabs">
+
+        <div class="exam-box active-exam">
+            <p>मासिक परीक्षा</p>
+            <h3>Monthly Test</h3>
+            <span>Max: 60</span>
+        </div>
+
+        <div class="exam-box">
+            <p>अर्धवार्षिक परीक्षा</p>
+            <h3>Half Yearly Exam</h3>
+            <span>Max: 60</span>
+        </div>
+
+        <div class="exam-box">
+            <p>वार्षिक लिखित परीक्षा</p>
+            <h3>Annual Written Exam</h3>
+            <span>Max: 60</span>
+        </div>
+
+        <div class="exam-box">
+            <p>प्रोजेक्ट वर्क</p>
+            <h3>Project Work</h3>
+            <span>Max: 20</span>
+        </div>
+
+    </div>
+
+    <!-- FILTER BOX -->
+    <div class="mark-filter">
+
+        <div>
+            <label>कक्षा / Class</label>
+            <select>
+                <option>-- All Classes --</option>
+                <option>कक्षा 1वीं</option>
+                <option>कक्षा 2वीं</option>
+                <option>कक्षा 3वीं</option>
+                <option>कक्षा 4वीं</option>
+                <option>कक्षा 5वीं</option>
+                <option>कक्षा 6वीं</option>
+                <option>कक्षा 7वीं</option>
+                <option>कक्षा 8वीं</option>
+                <option>कक्षा 9वीं</option>
+                <option>कक्षा 10वीं</option>
+            </select>
+        </div>
+
+        <div>
+            <label>छात्र / Student</label>
+            <select>
+                <option>-- All Students --</option>
+            </select>
+        </div>
+
+        <div>
+            <label>श्रेणी / Category</label>
+            <select>
+                <option>Language</option>
+                
+            </select>
+        </div>
+
+        <div>
+            <label>विषय / Subject</label>
+            <select>
+                <option>Hindi</option>
+            </select>
+        </div>
+
+        <button class="search-btn">🔍 Search</button>
+        <button class="reset-btn">Reset</button>
+
+    </div>
+
+    <!-- INSTRUCTION BOX -->
+    <div class="instruction-box">
+
+        <h3>निर्देश / Instructions:</h3>
+
+        <ul>
+            <li>Marks must not exceed maximum marks.</li>
+            <li>प्रत्येक परीक्षा प्रकार के अंक अलग-अलग सेव होंगे।</li>
+            <li>Save Selected से केवल चयनित पंक्तियाँ सेव होंगी।</li>
+        </ul>
+
+    </div>
+
+    <!-- STATUS BOXES -->
+    <div class="status-boxes">
+
+        <div class="status-card blue-card">
+            <h4>कुल छात्र / TOTAL STUDENTS</h4>
+            <p>0</p>
+        </div>
+
+        <div class="status-card green-card">
+            <h4>उपस्थित / PRESENT</h4>
+            <p>0</p>
+        </div>
+
+        <div class="status-card red-card">
+            <h4>अनुपस्थित / ABSENT</h4>
+            <p>0</p>
+        </div>
+
+    </div>
+
+    <!-- TABLE AREA -->
+    <div class="mark-table">
+
+        <p>No students found. Please add students from Student Management.</p>
+
+    </div>
+
+</div>
+</div> <!-- main -->
+</div> <!-- container -->
+
+<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/imejs@0.1.6/dist/ime.min.js"></script>
+
+<script>
+
+new IME({
+    input: document.getElementById("name_hindi"),
+    lang: "hi"
+});
+
+new IME({
+    input: document.getElementById("father_hindi"),
+    lang: "hi"
+});
+
+new IME({
+    input: document.getElementById("mother_hindi"),
+    lang: "hi"
+});
+
+</script>
+
+
+</body>
+</html>
